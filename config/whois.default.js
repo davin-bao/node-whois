@@ -64,7 +64,11 @@ var CONFIG = {
         {name: 'TechPhoneExt', prefix: 'Tech Phone Ext:' },
         {name: 'TechFax', prefix: 'Tech Fax:' },
         {name: 'TechFaxExt', prefix: 'Tech Fax Ext:' },
-        {name: 'TechEmail', prefix: 'Tech Email:' }
+        {name: 'TechEmail', prefix: 'Tech Email:' },
+
+        {name: 'DnsSec', prefix: 'DNSSEC:' },
+        {name: 'IcannProblemReportingSystem', prefix: 'URL of the ICANN WHOIS Data Problem Reporting System:' },
+        {name: 'WhoisOtherInfo', prefix: '>>>' }
     ],
     parseJson: function(whoisData, fields){
         var separator = '\n';

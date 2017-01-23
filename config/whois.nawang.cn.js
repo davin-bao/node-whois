@@ -1,6 +1,6 @@
 var easyParser = require('./../libs/easyParser');
-var extend = require('object-extend');
-var DEFAULT_CONFIG = extend({}, require('./whois.default'));
+var extend = require('./../libs/extend');
+var DEFAULT_CONFIG = require('./whois.default');
 
 var CONFIG = extend(DEFAULT_CONFIG, {
     HOST: 'whois.nawang.cn',
@@ -23,11 +23,11 @@ var CONFIG = extend(DEFAULT_CONFIG, {
         {name: 'SponsoringRegistrar', prefix: 'Sponsoring Registrar:' },
         {name: 'RegistrantContactEmail', prefix: 'Registrant Contact Email:' },
 
-        {name: 'RegistryFinanceID', prefix: 'Registry Registrant ID' },
-        {name: 'FinanceName', prefix: 'Registrant Name' },
-        {name: 'FinanceOrganization', prefix: 'Registrant Organization' },
-        {name: 'FinanceStreet', prefix: 'Registrant Street' },
-        {name: 'FinanceCity', prefix: 'Registrant City' },
+        {name: 'RegistryFinanceID', prefix: 'Registry Registrant ID:' },
+        {name: 'FinanceName', prefix: 'Registrant Name:' },
+        {name: 'FinanceOrganization', prefix: 'Registrant Organization:' },
+        {name: 'FinanceStreet', prefix: 'Registrant Street:' },
+        {name: 'FinanceCity', prefix: 'Registrant City:' },
         {name: 'FinanceProvince', prefix: 'Registrant State/Province:' },
         {name: 'FinancePostalCode', prefix: 'Registrant Postal Code:' },
         {name: 'FinanceCountry', prefix: 'Registrant Country:' },
@@ -37,11 +37,11 @@ var CONFIG = extend(DEFAULT_CONFIG, {
         {name: 'FinanceFaxExt', prefix: 'Registrant Fax Ext:' },
         {name: 'FinanceEmail', prefix: 'Registrant Email:' },
 
-        {name: 'RegistryAdminID', prefix: 'Registry Admin ID' },
-        {name: 'AdminName', prefix: 'Admin Name' },
-        {name: 'AdminOrganization', prefix: 'Admin Organization' },
-        {name: 'AdminStreet', prefix: 'Admin Street' },
-        {name: 'AdminCity', prefix: 'Admin City' },
+        {name: 'RegistryAdminID', prefix: 'Registry Admin ID"' },
+        {name: 'AdminName', prefix: 'Admin Name"' },
+        {name: 'AdminOrganization', prefix: 'Admin Organization"' },
+        {name: 'AdminStreet', prefix: 'Admin Street"' },
+        {name: 'AdminCity', prefix: 'Admin City"' },
         {name: 'AdminProvince', prefix: 'Admin State/Province:' },
         {name: 'AdminPostalCode', prefix: 'Admin Postal Code:' },
         {name: 'AdminCountry', prefix: 'Admin Country:' },
@@ -51,11 +51,11 @@ var CONFIG = extend(DEFAULT_CONFIG, {
         {name: 'AdminFaxExt', prefix: 'Admin Fax Ext:' },
         {name: 'AdminEmail', prefix: 'Admin Email:' },
 
-        {name: 'RegistryTechID', prefix: 'Registry Tech ID' },
-        {name: 'TechName', prefix: 'Tech Name' },
-        {name: 'TechOrganization', prefix: 'Tech Organization' },
-        {name: 'TechStreet', prefix: 'Tech Street' },
-        {name: 'TechCity', prefix: 'Tech City' },
+        {name: 'RegistryTechID', prefix: 'Registry Tech ID:' },
+        {name: 'TechName', prefix: 'Tech Name:' },
+        {name: 'TechOrganization', prefix: 'Tech Organization:' },
+        {name: 'TechStreet', prefix: 'Tech Street:' },
+        {name: 'TechCity', prefix: 'Tech City:' },
         {name: 'TechProvince', prefix: 'Tech State/Province:' },
         {name: 'TechPostalCode', prefix: 'Tech Postal Code:' },
         {name: 'TechCountry', prefix: 'Tech Country:' },
@@ -66,7 +66,7 @@ var CONFIG = extend(DEFAULT_CONFIG, {
         {name: 'TechEmail', prefix: 'Tech Email:' }
     ],
     parseJson: function(whoisData){
-        var separator = '\n\t\t\t';
+        var separator = '\n';
         var list = whoisData.split(separator);
         var newStr = '';
         for(var index in list){

@@ -1,29 +1,33 @@
 'use strict';
 
-var extend = require('object-extend');
 var consts = {};
-
 module.exports = consts;
 
 consts.WHOIS_DEFAULT_HOST = 'whois.iana.org';
 consts.WHOIS_DEFAULT_PORT = 43;
 //默认是否直走注册局
 consts.DEFAULT_ONLY_REGISTRY = false;
-//默认返回值格式 json | string
-consts.DEFAULT_FORMAT = 'json';
 
 consts.TIME_OUT_MS = 30000;
 
-consts.WHOIS_SERVER_LIST = {
-    'cn': [
-        __dirname + '/whois.cnnic.cn.js',
-        __dirname + '/whois.nawang.cn.js'
-    ],
-    'com': [
-        //__dirname + '/whois.nawang.cn.js',
-        __dirname + '/com.whois-servers.net.js',
-    ]
-};
+consts.WHOIS_SERVER_LIST = [
+    {
+        config: __dirname + '/whois.cnnic.cn.js',
+        tld: ['cn']
+    },
+    {
+        config: __dirname + '/com.whois-servers.net.js',
+        tld: ['com', 'net']
+    },
+    {
+        config: __dirname + '/whois.nawang.cn.js',
+        tld: ['cn', 'com', 'net']
+    },
+    {
+        config: __dirname + '/whois.nic.name.js',
+        tld: ['name']
+    }
+];
 
 consts.FIELDS = [
     {name: 'DomainName', require: true, isArray: false },
@@ -84,5 +88,9 @@ consts.FIELDS = [
     {name: 'TechPhoneExt', require: false, isArray: false },
     {name: 'TechFax', require: false, isArray: false },
     {name: 'TechFaxExt', require: false, isArray: false },
-    {name: 'TechEmail', require: false, isArray: false }
+    {name: 'TechEmail', require: false, isArray: false },
+
+    {name: 'DnsSec', require: false, isArray: false },
+    {name: 'IcannProblemReportingSystem', require: false, isArray: false },
+    {name: 'WhoisOtherInfo', require: false, isArray: false }
 ];

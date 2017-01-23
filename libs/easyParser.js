@@ -1,6 +1,6 @@
 
 var consts = require('./../config/constants');
-var extend = require('object-extend');
+var extend = require('./../libs/extend');
 
 /**
  * 简单解析器，直接分割后利用前缀匹配字段
@@ -13,14 +13,17 @@ var extend = require('object-extend');
 var EasyParser = function(data, items, separator){
     var result = {}, list = data.split(separator);
 
-    var fields = extend({}, consts.FIELDS);
-    items = extend(fields, items);
+    items = extend(consts.FIELDS, items);
+
     for(var i in items){
         var item = items[i];
         for(var index in list){
             var str = list[index];
             str = str.replace(/(^\s*)|(\s*$)/g, "");
-            if(item.prefix !== '' && str.indexOf(item.prefix) === 0) {
+            if(item.prefix !== '' && item.name === 'WhoisOtherInfo'){
+                var pos = data.indexOf(item.prefix);
+                result[item.name] = data.substr(pos, data.length - pos);
+            }else if(item.prefix !== '' && str.indexOf(item.prefix) === 0) {
                 if(item.isArray){
                     (typeof(result[item.name]) === 'undefined') && (result[item.name] = []);
                     result[item.name].push(str.replace(item.prefix, '').replace(/(^\s*)|(\s*$)/g, ""));

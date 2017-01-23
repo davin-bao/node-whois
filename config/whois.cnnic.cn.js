@@ -1,6 +1,5 @@
-//var easyParser = require('./../libs/easyParser');
-var extend = require('object-extend');
-var DEFAULT_CONFIG = extend({}, require('./whois.default'));
+var extend = require('./../libs/extend');
+var DEFAULT_CONFIG = require('./whois.default');
 
 var CONFIG = extend(DEFAULT_CONFIG, {
     HOST: 'whois.cnnic.cn',

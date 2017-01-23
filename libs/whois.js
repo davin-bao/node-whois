@@ -1,7 +1,7 @@
 
 var debug = require('debug')('whois:whois');
 var fs = require('fs');
-var extend = require('object-extend');
+var extend = require('./../libs/extend');
 
 var is = require('./is');
 var consts = require('./../config/constants');
@@ -11,14 +11,12 @@ var Parser = require('./../libs/parser');
 /**
  * Whois LookUp
  * whois 查询入口方法
- * @param format 返回的格式 json | string
  * @constructor
  */
-var Whois = function(format, onlyRegistry){
-    this._format = format || consts.DEFAULT_FORMAT;
+var Whois = function(onlyRegistry){
     this._onlyRegistry = onlyRegistry || consts.DEFAULT_ONLY_REGISTRY;
-    debug('Init (format:'+this._format+')');
-    this._parser = new Parser(this._format);
+    debug('Init');
+    this._parser = new Parser();
     this._level = 0;
 };
 /**
@@ -95,26 +93,49 @@ Whois.prototype._getServerConfig = function(domain, whoisData){
         return tldConfig;
     }
     //第一级 WHOIS 服务器
-    var tldConfigFileList = consts.WHOIS_SERVER_LIST[tld];
-    if(!is.array(tldConfigFileList) || tldConfigFileList.length <= 0){
-        throw SyntaxError('后缀（'+tld+'）的配置有误，期望为数组');
-    }
-    for(var index in tldConfigFileList){
-        var tldConfigFile = tldConfigFileList[index];
-        debug('Get config file(' + tldConfigFile + ')');
-        if(!fs.existsSync(tldConfigFile)){
-            throw SyntaxError('后缀（'+tld+'）的配置有误，文件（'+tldConfigFile+'）不存在');
+    //var tldConfigFileList = consts.WHOIS_SERVER_LIST[tld];
+    //if(!is.array(tldConfigFileList) || tldConfigFileList.length <= 0){
+    //    throw SyntaxError('后缀（'+tld+'）的配置有误，期望为数组');
+    //}
+    //for(var index in tldConfigFileList){
+    //    var tldConfigFile = tldConfigFileList[index];
+    //    debug('Get config file(' + tldConfigFile + ')');
+    //    if(!fs.existsSync(tldConfigFile)){
+    //        throw SyntaxError('后缀（'+tld+'）的配置有误，文件（'+tldConfigFile+'）不存在');
+    //    }
+    //
+    //    var config = extend({}, require(tldConfigFile));
+    //    if(!this._onlyRegistry) { //如果非只选择注册局，直接加入列表
+    //        debug('Add Server('+config.HOST+') to list (onlyRegistry:'+this._onlyRegistry+')');
+    //        tldConfig.push(config);
+    //    }else if(config.IS_REGISTRY){ //如果只选择注册局，那么只加入注册局到列表
+    //        debug('Add Server('+config.HOST+') to list (IS_REGISTRY:'+config.IS_REGISTRY+')');
+    //        tldConfig.push(config);
+    //    }
+    //}
+    for(var index in consts.WHOIS_SERVER_LIST){
+        var whoisServer = consts.WHOIS_SERVER_LIST[index];
+        if(!is.array(whoisServer.tld) || whoisServer.tld.length <= 0){
+            console.log(whoisServer);
+            throw SyntaxError('后缀（'+tld+'）的配置有误，期望为数组');
         }
+        if(whoisServer.tld.indexOf(tld) >= 0){
+            var tldConfigFile = whoisServer.config;
+            debug('Get config file(' + tldConfigFile + ')');
+            if(!fs.existsSync(tldConfigFile)){
+                throw SyntaxError('后缀（'+tld+'）的配置有误，文件（'+tldConfigFile+'）不存在');
+            }
+            var config = extend({}, require(tldConfigFile));
+            if(!this._onlyRegistry) { //如果非只选择注册局，直接加入列表
+                debug('Add Server('+config.HOST+') to list (onlyRegistry:'+this._onlyRegistry+')');
+                tldConfig.push(config);
+            }else if(config.IS_REGISTRY){ //如果只选择注册局，那么只加入注册局到列表
+                debug('Add Server('+config.HOST+') to list (IS_REGISTRY:'+config.IS_REGISTRY+')');
+                tldConfig.push(config);
+            }
+        }
+    }
 
-        var config = extend({}, require(tldConfigFile));
-        if(!this._onlyRegistry) { //如果非只选择注册局，直接加入列表
-            debug('Add Server('+config.HOST+') to list (onlyRegistry:'+this._onlyRegistry+')');
-            tldConfig.push(config);
-        }else if(config.IS_REGISTRY){ //如果只选择注册局，那么只加入注册局到列表
-            debug('Add Server('+config.HOST+') to list (IS_REGISTRY:'+config.IS_REGISTRY+')');
-            tldConfig.push(config);
-        }
-    }
 
     if(!is.array(tldConfig) || tldConfig.length <= 0) throw RangeError('当前系统不支持该域名后缀('+tld+')');
     return tldConfig;
