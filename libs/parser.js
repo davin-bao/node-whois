@@ -32,9 +32,10 @@ Parser.isValid = function(config, data){
     var fields = extend(consts.FIELDS, config.FIELDS);
     var str = data.toString();
 
-    for(var index in fields){
-        var item = fields[index];
+    for(var key in fields){
+        var item = fields[key];
         if(item.require === true && str.indexOf(item.prefix) === -1){
+            debug('validate fail, miss key: ' + key + ' ', item.prefix);
             return false;
         }
     }

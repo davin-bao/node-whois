@@ -16,28 +16,28 @@ var EasyParser = function(data, items, separator){
 
     items = extend(consts.FIELDS, items);
 
-    for(var i in items){
-        var item = items[i];
+    for(var key in items){
+        var item = items[key];
         for(var index in list){
             var str = list[index];
             str = str.replace(/(^\s*)|(\s*$)/g, "");
-            if(item.prefix !== '' && item.name === 'WhoisOtherInfo'){
+            if(item.prefix !== '' && key === 'WhoisOtherInfo'){
                 var pos = data.indexOf(item.prefix);
-                result[item.name] = data.substr(pos, data.length - pos);
+                result[key] = data.substr(pos, data.length - pos);
             }else if(item.prefix !== '' && str.indexOf(item.prefix) === 0) {
                 if(item.isArray){
-                    (typeof(result[item.name]) === 'undefined') && (result[item.name] = []);
-                    result[item.name].push(str.replace(item.prefix, '').replace(/(^\s*)|(\s*$)/g, ""));
+                    (typeof(result[key]) === 'undefined') && (result[key] = []);
+                    result[key].push(str.replace(item.prefix, '').replace(/(^\s*)|(\s*$)/g, ""));
                 }else{
-                    result[item.name] = str.replace(item.prefix, '').replace(/(^\s*)|(\s*$)/g, "");
+                    result[key] = str.replace(item.prefix, '').replace(/(^\s*)|(\s*$)/g, "");
                 }
             }
         }
-        if(typeof(result[item.name]) === 'undefined'){
+        if(typeof(result[key]) === 'undefined'){
             if(item.require === true) {
-                return {code: 500, message: '域（'+item.name+')未获取成功', rawData: data};
+                return {code: 500, message: '域（'+key+')未获取成功', rawData: data};
             }
-            result[item.name] = '';
+            result[key] = '';
         }
     }
 

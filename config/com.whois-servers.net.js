@@ -7,20 +7,20 @@ var CONFIG = extend(DEFAULT_CONFIG, {
     HOST: 'com.whois-servers.net',
     IS_REGISTRY: true,
     PARAM: 'domain =$',
-    FIELDS: [
-        {name: 'DomainName', prefix: 'Domain Name:' },
-        {name: 'CreationDate', prefix: 'Creation Date:' },
-        {name: 'ExpirationDate', prefix: 'Expiration Date:' },
-        {name: 'RawData', prefix: '' },
+    FIELDS: {
+        DomainName: { prefix: 'Domain Name:'},
+        CreationDate: { prefix: 'Creation Date:'},
+        ExpirationDate: { prefix: 'Expiration Date:'},
+        RawData: { prefix: ''},
 
-        {name: 'NameServer', prefix: 'Name Server:' },
-        {name: 'DomainStatus', prefix: 'Status:' },
+        NameServer: { prefix: 'Name Server:'},
+        DomainStatus: { prefix: 'Status:'},
 
-        {name: 'Registrar', prefix: 'Registrar:' },
-        {name: 'RegistrarIanaId', prefix: 'Sponsoring Registrar IANA ID:' },
-        {name: 'SponsoringRegistrar', prefix: 'Sponsoring Registrar:' },
-        {name: 'WhoisServer', prefix: 'Whois Server:' }
-    ]
+        Registrar: { prefix: 'Registrar:'},
+        RegistrarIanaId: { prefix: 'Sponsoring Registrar IANA ID:'},
+        SponsoringRegistrar: { prefix: 'Sponsoring Registrar:'},
+        WhoisServer: { prefix: 'Whois Server:'}
+    }
 });
 
 module.exports = CONFIG;

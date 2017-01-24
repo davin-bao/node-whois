@@ -6,23 +6,23 @@ var CONFIG = extend(DEFAULT_CONFIG, {
     HOST: 'whois.nic.name',
     IS_REGISTRY: true,
     PARAM: 'domain =$',
-    FIELDS: [
-        {name: 'DomainName', prefix: 'Domain Name:' },
-        {name: 'CreationDate', prefix: 'Created On:' },
-        {name: 'ExpirationDate', prefix: 'Expires On:' },
-        {name: 'RawData', prefix: '' },
+    FIELDS: {
+        DomainName: { prefix: 'Domain Name:'},
+        CreationDate: { prefix: 'Created On:'},
+        ExpirationDate: { prefix: 'Expires On:'},
+        RawData: { prefix: ''},
 
-        {name: 'NameServer', prefix: 'Name Server:' },
-        {name: 'DomainStatus', prefix: 'Domain Status:' },
+        NameServer: { prefix: 'Name Server:'},
+        DomainStatus: { prefix: 'Domain Status:'},
 
-        {name: 'RegistrarIanaId', prefix: 'Sponsoring Registrar IANA ID:' },
-        {name: 'SponsoringRegistrar', prefix: 'Sponsoring Registrar:' },
+        RegistrarIanaId: { prefix: 'Sponsoring Registrar IANA ID:'},
+        SponsoringRegistrar: { prefix: 'Sponsoring Registrar:'},
 
-        {name: 'RegistrantId', prefix: 'Registrant ID:' },
-        {name: 'RegistryFinanceID', prefix: 'Billing ID:' },
-        {name: 'RegistryAdminID', prefix: 'Admin ID:' },
-        {name: 'RegistryTechID', prefix: 'Tech ID:' }
-    ]
+        RegistrantId: { prefix: 'Registrant ID:'},
+        RegistryFinanceID: { prefix: 'Billing ID:'},
+        RegistryAdminID: { prefix: 'Admin ID:'},
+        RegistryTechID: { prefix: 'Tech ID:'}
+    }
 });
 
 module.exports = CONFIG;
