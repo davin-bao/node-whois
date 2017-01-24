@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('whois:server43');
+var Whois = require('./../libs/whois');
+var Server = require('./../libs/server');
+
+//创建 43 端口的 whois 服务器
+new Server(
+    function(client, domain, refresh){
+      //
+      var whois = new Whois();
+      whois.lookup(domain, refresh, function(data){
+        var rawData = typeof(data.RawData) != 'undefined' ? data.RawData : data.message;
+        client.write(rawData);
+        client.end();
+      });
+    }
+);

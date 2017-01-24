@@ -3,6 +3,11 @@
 var consts = {};
 module.exports = consts;
 
+consts.CACHE_ENABLE = true;
+consts.CACHE_HOST = '127.0.0.1';
+consts.CACHE_PORT = 6379;
+consts.CACHE_DB = 2;
+
 consts.WHOIS_DEFAULT_HOST = 'whois.iana.org';
 consts.WHOIS_DEFAULT_PORT = 43;
 //默认是否直走注册局

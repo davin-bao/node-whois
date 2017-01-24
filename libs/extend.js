@@ -1,3 +1,4 @@
+'use strict';
 
 module.exports = function extend(a, b) {
     var target = _extend({}, a);

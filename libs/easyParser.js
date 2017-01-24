@@ -1,3 +1,4 @@
+'use strict';
 
 var consts = require('./../config/constants');
 var extend = require('./../libs/extend');

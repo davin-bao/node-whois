@@ -1,3 +1,5 @@
+'use strict';
+
 var consts = require('./../config/constants');
 var extend = require('./../libs/extend');
 var debug = require('debug')('whois:parser');
@@ -30,7 +32,7 @@ Parser.prototype.parse = function (config, whoisData){
  * @returns {boolean}
  */
 Parser.isValid = function(config, data){
-    fields = extend(consts.FIELDS, config.FIELDS);
+    var fields = extend(consts.FIELDS, config.FIELDS);
     var str = data.toString();
 
     for(var index in fields){

@@ -1,3 +1,4 @@
+'use strict';
 
 var debug = require('debug')('whois:whois');
 var fs = require('fs');
@@ -7,6 +8,7 @@ var is = require('./is');
 var consts = require('./../config/constants');
 var ClientPool = require('./../libs/clientPool');
 var Parser = require('./../libs/parser');
+var Cache = require('./../libs/cache');
 
 /**
  * Whois LookUp
@@ -18,19 +20,31 @@ var Whois = function(onlyRegistry){
     debug('Init');
     this._parser = new Parser();
     this._level = 0;
+    this._cache = this._cache || new Cache();
 };
 /**
  * 查询
  * @param domain 待查询的域名
  */
-Whois.prototype.lookup = function(domain, callback){
+Whois.prototype.lookup = function(domain, refresh, callback){
     if(!Whois.validDomain(domain)){
         throw TypeError('输入的domain参数非法');
     }
 
     var self = this;
 
-    self._deepLookup(domain, {}, callback);
+    self._cache.get(domain, function(whoisData){
+        if(whoisData == null || refresh){
+            self._deepLookup(domain, {}, function(whoisData){
+                if(whoisData.code == 200){
+                    self._cache.save(whoisData);
+                }
+                callback(whoisData);
+            });
+        }else{
+            callback(whoisData);
+        }
+    });
 };
 
 Whois.prototype._deepLookup = function (domain, parseData, callback) {
@@ -39,6 +53,7 @@ Whois.prototype._deepLookup = function (domain, parseData, callback) {
         tldConfig = this._getServerConfig(domain, parseData);
 
     self._level ++;
+
 
     clientPool.init(tldConfig, function(client, err, data) {
         var searchServerObj = {};
