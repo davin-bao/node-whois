@@ -54,7 +54,6 @@ Whois.prototype._deepLookup = function (domain, parseData, callback) {
 
     self._level ++;
 
-
     clientPool.init(tldConfig, function(client, err, data) {
         var searchServerObj = {};
         searchServerObj['searchServerLevel_'+ self._level] = client == null ? {} :  client.getConfig().HOST;

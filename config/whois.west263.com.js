@@ -1,9 +1,9 @@
-var easyParser = require('./../libs/easyParser');
 var extend = require('./../libs/extend');
 var DEFAULT_CONFIG = require('./whois.default');
 
 var CONFIG = extend(DEFAULT_CONFIG, {
-    HOST: 'whois.nawang.cn',
+    HOST: 'whois.west263.com',
+    PARAM: '$',
     FIELDS: [
         {name: 'DomainName', prefix: 'Domain Name:' },
         {name: 'CreationDate', prefix: 'Creation Date:' },
@@ -37,11 +37,11 @@ var CONFIG = extend(DEFAULT_CONFIG, {
         {name: 'FinanceFaxExt', prefix: 'Registrant Fax Ext:' },
         {name: 'FinanceEmail', prefix: 'Registrant Email:' },
 
-        {name: 'RegistryAdminID', prefix: 'Registry Admin ID"' },
-        {name: 'AdminName', prefix: 'Admin Name"' },
-        {name: 'AdminOrganization', prefix: 'Admin Organization"' },
-        {name: 'AdminStreet', prefix: 'Admin Street"' },
-        {name: 'AdminCity', prefix: 'Admin City"' },
+        {name: 'RegistryAdminID', prefix: 'Registry Admin ID:' },
+        {name: 'AdminName', prefix: 'Admin Name:' },
+        {name: 'AdminOrganization', prefix: 'Admin Organization:' },
+        {name: 'AdminStreet', prefix: 'Admin Street:' },
+        {name: 'AdminCity', prefix: 'Admin City:' },
         {name: 'AdminProvince', prefix: 'Admin State/Province:' },
         {name: 'AdminPostalCode', prefix: 'Admin Postal Code:' },
         {name: 'AdminCountry', prefix: 'Admin Country:' },
@@ -63,36 +63,12 @@ var CONFIG = extend(DEFAULT_CONFIG, {
         {name: 'TechPhoneExt', prefix: 'Tech Phone Ext:' },
         {name: 'TechFax', prefix: 'Tech Fax:' },
         {name: 'TechFaxExt', prefix: 'Tech Fax Ext:' },
-        {name: 'TechEmail', prefix: 'Tech Email:' }
-    ],
-    parseJson: function(whoisData){
-        var separator = '\n';
-        var list = whoisData.split(separator);
-        for(var index in list){
-            var str = list[index];
-            str = str.replace(/(^\s*)|(\s*$)/g, "");
-            if(str.indexOf('Domain Status:') === 0) {
-                var failedStr = str;
-                var needReplacePrefix = [
-                    'Domain Status:',
-                    'Registrant ID:',
-                    'Registrant:',
-                    'Registrant Contact Email:',
-                    'Sponsoring Registrar:',
-                    'Name Server:',
-                    'Registration Time:'
-                ];
-                //开始截取
-                for(var i in needReplacePrefix){
-                    failedStr = failedStr.split(needReplacePrefix[i]).join(separator + needReplacePrefix[i]);
-                }
-                break;
-            }
-        }
-        whoisData = whoisData.replace(str, failedStr);
+        {name: 'TechEmail', prefix: 'Tech Email:' },
 
-        return easyParser(whoisData, CONFIG.FIELDS, separator);
-    },
+        {name: 'DnsSec', prefix: 'DNSSEC:' },
+        {name: 'IcannProblemReportingSystem', prefix: 'URL of the ICANN WHOIS Data Problem Reporting System:' },
+        {name: 'WhoisOtherInfo', prefix: '>>>' }
+    ]
 });
 
 module.exports = CONFIG;

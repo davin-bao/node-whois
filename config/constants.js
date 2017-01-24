@@ -31,6 +31,14 @@ consts.WHOIS_SERVER_LIST = [
     {
         config: __dirname + '/whois.nic.name.js',
         tld: ['name']
+    },
+    //{
+    //    config: __dirname + '/whois.west263.com.js',
+    //    tld: ['top']
+    //},
+    {
+        config: __dirname + '/whois.nic.top.js',
+        tld: ['top']
     }
 ];
 

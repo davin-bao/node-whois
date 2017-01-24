@@ -18,9 +18,6 @@ var Parser = function(){
  * @returns {string}
  */
 Parser.prototype.parse = function (config, whoisData){
-    this._config = config;
-    this._whoisData = whoisData;
-
     if(!config.parseJson) throw SyntaxError('未配置服务器（'+config.HOST+'）的 JSON 解析器');
     return config.parseJson(whoisData, config.FIELDS);
 };

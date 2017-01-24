@@ -24,12 +24,13 @@ function _extend(a, b) {
                 break;
             case '[object Array]':
                 var bFields = b[key].concat();
-                if(key == 'FIELDS'){
-                    if(Object.prototype.toString.call(a[key]) == '[object Undefined]'){
-                        a[key] = bFields;
-                    }else{
-                        for(var bIndex in bFields){
-                            var isFindField = false, bFiled = bFields[bIndex];
+                if(Object.prototype.toString.call(a[key]) == '[object Undefined]'){
+                    a[key] = bFields;
+                }else{
+                    for(var bIndex in bFields){
+                        var isFindField = false, bFiled = bFields[bIndex];
+                        if(key == 'FIELDS'){
+                            ///如果为 FIELDS 字段， 则判断是否都存在 name 属性， 然后根据 name 相同的对象进行合并
                             for(var aIndex in a[key]){
                                 var aFiled = a[key][aIndex];
                                 if(aFiled.name == bFiled.name){
@@ -40,6 +41,14 @@ function _extend(a, b) {
                             }
                             if(!isFindField){
                                 a[key].push(bFiled);
+                            }
+                        }else{
+                            if(Object.prototype.toString.call(a[key]) == '[object Undefined]'){
+                                a[key] = bFields;
+                            }else if(Object.prototype.toString.call(a[key]) == '[object Array]'){
+                                if(a[key].indexOf(bFiled) < 0){
+                                    a[key].push(bFiled);
+                                }
                             }
                         }
                     }

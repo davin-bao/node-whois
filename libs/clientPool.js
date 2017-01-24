@@ -26,19 +26,18 @@ ClientPool.prototype.init = function(configs, callback) {
                 debug('Error', err);
                 self.remove(client);
                 if(!self._clients || self._clients.length <= 0){
-                    if(!self._isCallbacked){
-                        self._isCallbacked = true;
+                    //if(!self._isCallbacked){
+                    //    self._isCallbacked = true;
                         callback(client, err,  null);
-                    }
+                    //}
                 }
             }else{
                 debug('Got data ...');
                 self.removeAll();
-                debug(self._isCallbacked);
-                if(!self._isCallbacked) {
-                    self._isCallbacked = true;
+                //if(!self._isCallbacked) {
+                //    self._isCallbacked = true;
                     callback(client, err, data);
-                }
+                //}
             }
         });
         this._clients.push(client);
@@ -47,10 +46,10 @@ ClientPool.prototype.init = function(configs, callback) {
     setTimeout(function(){
         debug('Time out');
         self.removeAll();
-        if(!self._isCallbacked){
-            self._isCallbacked = true;
+        //if(!self._isCallbacked){
+        //    self._isCallbacked = true;
             callback(null, 'ETIMEDOUT', null);
-        }
+        //}
     }, this._options.timeout);
 };
 /**
