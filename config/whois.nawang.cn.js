@@ -91,7 +91,7 @@ var CONFIG = extend(DEFAULT_CONFIG, {
         }
         whoisData = whoisData.replace(str, failedStr);
 
-        return easyParser(whoisData, CONFIG.FIELDS, separator);
+        return easyParser(this, whoisData, separator);
     },
 });
 

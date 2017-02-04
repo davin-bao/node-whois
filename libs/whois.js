@@ -63,6 +63,7 @@ Whois.prototype._deepLookup = function (domain, parseData, callback) {
         } else {
             //使用解析器解析返回的报文
             var childParseData = self._parser.parse(client.getConfig(), data);
+
             data = extend(parseData, childParseData);
             data = extend(searchServerObj, data);
 
@@ -100,37 +101,16 @@ Whois.prototype._getServerConfig = function(domain, whoisData){
         var server = whoisData.WhoisServer;
         delete(whoisData.WhoisServer);
 
-        var tldConfigFile = fs.existsSync('./../config/' + server) ? './../config/' + server : './../config/whois.default';
+        var tldConfigFile = fs.existsSync(__dirname + '/../config/' + server + '.js') ? './../config/' + server : './../config/whois.default';
         var config = extend({}, require(tldConfigFile));
         config.HOST = server;
         tldConfig.push(config);
         return tldConfig;
     }
-    //第一级 WHOIS 服务器
-    //var tldConfigFileList = consts.WHOIS_SERVER_LIST[tld];
-    //if(!is.array(tldConfigFileList) || tldConfigFileList.length <= 0){
-    //    throw SyntaxError('后缀（'+tld+'）的配置有误，期望为数组');
-    //}
-    //for(var index in tldConfigFileList){
-    //    var tldConfigFile = tldConfigFileList[index];
-    //    debug('Get config file(' + tldConfigFile + ')');
-    //    if(!fs.existsSync(tldConfigFile)){
-    //        throw SyntaxError('后缀（'+tld+'）的配置有误，文件（'+tldConfigFile+'）不存在');
-    //    }
-    //
-    //    var config = extend({}, require(tldConfigFile));
-    //    if(!this._onlyRegistry) { //如果非只选择注册局，直接加入列表
-    //        debug('Add Server('+config.HOST+') to list (onlyRegistry:'+this._onlyRegistry+')');
-    //        tldConfig.push(config);
-    //    }else if(config.IS_REGISTRY){ //如果只选择注册局，那么只加入注册局到列表
-    //        debug('Add Server('+config.HOST+') to list (IS_REGISTRY:'+config.IS_REGISTRY+')');
-    //        tldConfig.push(config);
-    //    }
-    //}
+    //加载已知的配置
     for(var index in consts.WHOIS_SERVER_LIST){
         var whoisServer = consts.WHOIS_SERVER_LIST[index];
         if(!is.array(whoisServer.tld) || whoisServer.tld.length <= 0){
-            console.log(whoisServer);
             throw SyntaxError('后缀（'+tld+'）的配置有误，期望为数组');
         }
         if(whoisServer.tld.indexOf(tld) >= 0){
@@ -149,11 +129,36 @@ Whois.prototype._getServerConfig = function(domain, whoisData){
             }
         }
     }
-
+    //加载 EPP 协议要求的配置 whois.nic.*
+    var host = 'whois.nic.' + tld;
+    if(!Whois.isServerConfigExist(tldConfig, host)){
+        var tldConfigFile = fs.existsSync(__dirname + '/../config/' + server) ? './../config/' + server : './../config/whois.default';
+        var config = extend({}, require(tldConfigFile));
+        config.HOST = host;
+        tldConfig.push(config);
+    }
+    //到 IANA 查询 WHOIS 服务器及信息
+    var tldConfigFile = './../config/whois.iana.org';
+    var config = extend({}, require(tldConfigFile));
+    tldConfig.push(config);
 
     if(!is.array(tldConfig) || tldConfig.length <= 0) throw RangeError('当前系统不支持该域名后缀('+tld+')');
     return tldConfig;
 };
+/**
+ * 查询当前的配置库中是否含有 host 配置
+ * @param tldConfig
+ * @param host
+ * @returns {boolean}
+ */
+Whois.isServerConfigExist = function(tldConfig, host){
+    for(var config in tldConfig){
+        if(config.HOST == host){
+            return true;
+        }
+    }
+    return false;
+}
 
 module.exports = Whois;
 

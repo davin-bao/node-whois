@@ -4,11 +4,12 @@ var CONFIG = {
     HOST: '',
     PORT: 43,
     IS_REGISTRY: false,
+    IS_ROOT: false,
     PARAM: '$',
     FIELDS: {
         DomainName: { prefix: 'Domain Name:'},
         CreationDate: { prefix: 'Creation Date:'},
-        ExpirationDate: { prefix: 'Registrar Registration Expiration Date:'},
+        ExpirationDate: { prefix: 'Registry Expiry Date:'},
         RawData: { prefix: ''},
 
         NameServer: { prefix: 'Name Server:'},
@@ -70,9 +71,9 @@ var CONFIG = {
         IcannProblemReportingSystem: { prefix: 'URL of the ICANN WHOIS Data Problem Reporting System:'},
         WhoisOtherInfo: { prefix: '>>>'}
     },
-    parseJson: function(whoisData, fields){
+    parseJson: function(whoisData){
         var separator = '\n';
-        return easyParser(whoisData, fields, separator);
+        return easyParser(this, whoisData, separator);
     }
 };
 

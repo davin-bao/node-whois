@@ -44,7 +44,7 @@ var Client = function(config, callback) {
     self._client.on('end', function() {
         //debug('domain whois info:\n', data);
         debug('Whois server ' + self._config.HOST + ':' + self._config.PORT + ' is end', data);
-        var err = is.empty(data) || !Parser.isValid(self._config, data) ? new Error('Not found whois info') : null;
+        var err = is.empty(data) || (Parser.judgeIsRoot(self._config, data) && !Parser.isValid(self._config, data)) ? new Error('Not found whois info') : null;
         callback(self, err, data);
     });
 };

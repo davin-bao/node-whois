@@ -34,6 +34,11 @@ function _extend(a, b) {
                             if(a[key].indexOf(bFiled) < 0){
                                 a[key].push(bFiled);
                             }
+                        }else{
+                            (typeof(a[key]) === 'undefined' || _empty(a[key])) && (a[key] = []);
+                            if(a[key].indexOf(bFiled) < 0){
+                                a[key].push(bFiled);
+                            }
                         }
                     }
                 }
@@ -47,4 +52,8 @@ function _extend(a, b) {
         }
     });
     return a;
+};
+
+function _empty(obj) {
+    return !!~['""', '{}', '[]'].indexOf(JSON.stringify(obj));
 };
