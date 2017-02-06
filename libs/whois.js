@@ -47,6 +47,20 @@ Whois.prototype.lookup = function(domain, refresh, callback){
     });
 };
 
+Whois.prototype.lookup = function (domain, whoisData, callback) {
+    var self = this;
+    self._deepLookup(domain, {}, function(whoisData){
+        if(whoisData.code == 200){
+            callback(whoisData);
+        }else{
+            //到 IANA 查询 WHOIS 服务器及信息
+            self._deepLookup(domain, { WhoisServer: 'whois.iana.org'}, function(whoisData){
+                callback(whoisData);
+            });
+        }
+    });
+};
+
 Whois.prototype._deepLookup = function (domain, parseData, callback) {
     var self = this,
         clientPool = new ClientPool(),
@@ -137,10 +151,6 @@ Whois.prototype._getServerConfig = function(domain, whoisData){
         config.HOST = host;
         tldConfig.push(config);
     }
-    //到 IANA 查询 WHOIS 服务器及信息
-    var tldConfigFile = './../config/whois.iana.org';
-    var config = extend({}, require(tldConfigFile));
-    tldConfig.push(config);
 
     if(!is.array(tldConfig) || tldConfig.length <= 0) throw RangeError('当前系统不支持该域名后缀('+tld+')');
     return tldConfig;
