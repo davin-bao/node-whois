@@ -2,8 +2,11 @@
 
 var net = require('net');
 var debug = require('debug')('whois:server');
-
-
+/**
+ * WHOIS server
+ * @param callback
+ * @constructor
+ */
 var Server = function(callback) {
     var self = this;
     self._server = net.createServer();

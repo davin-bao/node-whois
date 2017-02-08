@@ -2,46 +2,51 @@
 
 var consts = {};
 module.exports = consts;
-
+/**
+ * Redis 缓存服务器配置
+ * @type {boolean}
+ */
 consts.CACHE_ENABLE = true;
 consts.CACHE_HOST = '127.0.0.1';
 consts.CACHE_PORT = 6379;
 consts.CACHE_DB = 2;
+consts.CACHE_SECOND = 86400;   //设置的过期时间不合法，则使用默认缓存时间 1天
 
+//WHOIS 根服务器
 consts.WHOIS_DEFAULT_HOST = 'whois.iana.org';
 consts.WHOIS_DEFAULT_PORT = 43;
 //默认是否直走注册局
 consts.DEFAULT_ONLY_REGISTRY = false;
-
+//请求超时时间（ms）
 consts.TIME_OUT_MS = 30000;
-
+//需解析的特殊报文服务器列表
 consts.WHOIS_SERVER_LIST = [
     {
-        config: __dirname + '/whois.cnnic.cn.js',
+        config: 'whois.cnnic.cn',
         tld: ['cn']
     },
     {
-        config: __dirname + '/com.whois-servers.net.js',
+        host: 'com.whois-servers.net',
         tld: ['com', 'net']
     },
     {
-        config: __dirname + '/whois.nawang.cn.js',
+        config: 'whois.nawang.cn',
         tld: ['cn', 'com', 'net', 'tt']
     },
     {
-        config: __dirname + '/whois.nic.name.js',
+        config: 'whois.nic.name',
         tld: ['name']
     },
     {
-        config: __dirname + '/whois.west263.com.js',
+        config: 'whois.west263.com',
         tld: ['top']
     },
     {
-        config: __dirname + '/whois.nic.top.js',
+        config: 'whois.nic.top',
         tld: ['top']
     }
 ];
-
+//返回字段配置， require 必定返回字段，如不存在则抛弃结果
 consts.FIELDS = {
     DomainName: { require: true, isArray: false },
     CreationDate: { require: true, isArray: false },

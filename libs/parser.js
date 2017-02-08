@@ -52,7 +52,7 @@ Parser.isValid = function(config, data){
     for(var key in fields){
         var item = fields[key];
         if(item.require === true && str.indexOf(item.prefix) === -1){
-            debug('validate fail, miss key: ' + key + ' ', item.prefix);
+            debug('validate fail, host: ' + config.HOST + ' miss key: ' + key + ' ', item.prefix);
             return false;
         }
     }

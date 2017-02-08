@@ -4,7 +4,13 @@ module.exports = function extend(a, b) {
     var target = _extend({}, a);
     return _extend(target, b);
 };
-
+/**
+ * 对象深度拷贝工具
+ * @param a
+ * @param b
+ * @returns {*}
+ * @private
+ */
 function _extend(a, b) {
     // Don't touch 'null' or 'undefined' objects.
     if (b == null) {
