@@ -109,6 +109,7 @@ Whois.prototype._deepLookup = function(clientPool, rootClient, domain, parsedDat
     }
 
     var newTldConfig = Whois.getConfig(parsedData.WhoisServer);
+    debug('Delete parsedData.WhoisServer: ' + parsedData.WhoisServer);
     delete parsedData.WhoisServer;
     var client = new Client(newTldConfig);
     client.onSuccess(function(client, data){
@@ -116,8 +117,8 @@ Whois.prototype._deepLookup = function(clientPool, rootClient, domain, parsedDat
         self._deepLookup(clientPool, rootClient, domain, newParsedData, callback);
     });
     client.onError(function(client, err){
-        clientPool.remove(rootClient);
-        debug('client.onError ', err);
+        //debug('client.onError ', err);
+        clientPool.remove(rootClient, err);
     });
 
     client.send(domain);
@@ -166,11 +167,11 @@ Whois.prototype.getTldConfigList = function(domain) {
         }
     }
     //加载 EPP 协议要求的配置 whois.nic.*
-    var host = 'whois.nic.' + tld;
-    if(!Whois.isServerConfigExist(tldConfig, host)){
-        var config = Whois.getConfig(host);
-        tldConfig.push(config);
-    }
+    //var host = 'whois.nic.' + tld;
+    //if(!Whois.isServerConfigExist(tldConfig, host)){
+    //    var config = Whois.getConfig(host);
+    //    tldConfig.push(config);
+    //}
     //加载根 WHOIS 服务器
     tldConfig.push(Whois.getConfig(consts.WHOIS_DEFAULT_HOST));
 

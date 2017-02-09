@@ -37,10 +37,7 @@ ClientPool.prototype.init = function(configs) {
         client.onError(function(client, err){
             debug('client.onError ', err);
             self.emit('onClientError', client, err);
-            self.remove(client);
-            if(!self._clients || self._clients.length <= 0){
-                self.emit('onError', client, err);
-            }
+            self.remove(client, err);
         });
         this._clients.push(client);
     }
@@ -87,11 +84,15 @@ ClientPool.prototype.onTimeout = function(fn) {
  * 从连接池中删除一个连接，并且销毁该连接
  * @param client
  */
-ClientPool.prototype.remove = function(client){
+ClientPool.prototype.remove = function(client, err){
     var index = this._clients.indexOf(client);
     if (index > -1) {
         this._clients[index].destroy();
         this._clients.splice(index, 1);
+    }
+
+    if(!this._clients || this._clients.length <= 0){
+        this.emit('onError', client, {message: err});
     }
 };
 /**

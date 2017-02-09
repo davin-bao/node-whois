@@ -22,27 +22,23 @@ consts.TIME_OUT_MS = 30000;
 //需解析的特殊报文服务器列表
 consts.WHOIS_SERVER_LIST = [
     {
-        config: 'whois.cnnic.cn',
+        host: 'whois.cnnic.cn',
         tld: ['cn']
     },
+    //{
+    //    host: 'com.whois-servers.net',
+    //    tld: ['com', 'net']
+    //},
+    //{
+    //    host: 'whois.nawang.cn',
+    //    tld: ['cn', 'com', 'net', 'tt']
+    //},
     {
-        host: 'com.whois-servers.net',
-        tld: ['com', 'net']
-    },
-    {
-        config: 'whois.nawang.cn',
-        tld: ['cn', 'com', 'net', 'tt']
-    },
-    {
-        config: 'whois.nic.name',
+        host: 'whois.nic.name',
         tld: ['name']
     },
     {
-        config: 'whois.west263.com',
-        tld: ['top']
-    },
-    {
-        config: 'whois.nic.top',
+        host: 'whois.west263.com',
         tld: ['top']
     }
 ];

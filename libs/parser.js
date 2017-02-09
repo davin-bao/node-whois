@@ -3,6 +3,7 @@
 var consts = require('./../config/constants');
 var extend = require('./../libs/extend');
 var debug = require('debug')('whois:parser');
+var Logger = require('./log4js');
 
 /**
  * WHOIS 信息解析器
@@ -43,6 +44,7 @@ Parser.judgeIsRoot = function(config, data){
  * @returns {boolean}
  */
 Parser.isValid = function(config, data){
+    var logger = new Logger('Parser');
     var fields = extend(consts.FIELDS, config.FIELDS);
     var str = data.toString();
     //如果不是最终whois 服务器，则直接返回true， 等待递归转发
@@ -52,7 +54,7 @@ Parser.isValid = function(config, data){
     for(var key in fields){
         var item = fields[key];
         if(item.require === true && str.indexOf(item.prefix) === -1){
-            debug('validate fail, host: ' + config.HOST + ' miss key: ' + key + ' ', item.prefix);
+            logger.info('validate fail, host: ' + config.HOST + ' miss key: ' + key + ' ', item.prefix);
             return false;
         }
     }

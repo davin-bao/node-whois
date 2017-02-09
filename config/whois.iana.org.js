@@ -7,8 +7,10 @@ var CONFIG = extend(DEFAULT_CONFIG, {
     HOST: 'whois.iana.org',
     IS_REGISTRY: true,
     FIELDS: {
-        ExpirationDate: { prefix: 'Registry Expiry Date:'},
-        WhoisServer: { prefix: 'whois:'}
+        DomainName: { require: false },
+        CreationDate: {require: false },
+        ExpirationDate: {  require: false, prefix: 'Registry Expiry Date:'},
+        WhoisServer: {  require: true, prefix: 'refer:'}
     },
     parseJson: function(whoisData){
         var separator = '\n\n';
