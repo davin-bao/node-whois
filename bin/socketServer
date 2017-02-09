@@ -14,7 +14,8 @@ new Server(
     function(client, domain, refresh){
       //
       var whois = new Whois();
-      whois.lookup(domain, refresh, function(data){
+      whois.lookup(domain, refresh);
+      whois.onFinish(function(data){
         var rawData = typeof(data.RawData) != 'undefined' ? data.RawData : data.message;
         client.write(rawData);
         client.end();
